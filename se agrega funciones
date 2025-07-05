@@ -1,0 +1,11 @@
+ public boolean registrarEstudiante(Estudiante nuevo) {
+        for (Estudiante e : estudiantes) {
+            if (e.getCarnet().equalsIgnoreCase(nuevo.getCarnet())) {
+                System.out.println("Estudiante ya registrado.");
+                return false;
+            }
+        }
+        estudiantes.add(nuevo);
+        guardarEstudiantes();
+        return true;
+    }

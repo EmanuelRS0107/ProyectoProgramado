@@ -1,0 +1,130 @@
+package proyectoprogramado;
+
+import controlador.FuncionesDelSistema;
+import modelo.*;
+
+import java.util.Scanner;
+
+public class ProyectoProgramado {
+    public static void main(String[] args) {
+        FuncionesDelSistema sistema = new FuncionesDelSistema();
+        Scanner sc = new Scanner(System.in);
+
+        int opcion;
+        do {
+            System.out.println("\n--- MENU PRINCIPAL ---");
+            System.out.println("1. Registrar estudiante");
+            System.out.println("2. Registrar profesor");
+            System.out.println("3. Registrar curso");
+            System.out.println("4. Matricular estudiante");
+            System.out.println("5. Ver lista de cursos");
+            System.out.println("6. Ver estudiantes por curso");
+            System.out.println("7. Ver cursos por estudiante");
+            System.out.println("0. Salir");
+            System.out.print("Seleccione una opcion: ");
+            opcion = sc.nextInt();
+            sc.nextLine();
+
+            switch (opcion) {
+                case 1 -> registrarEstudiante(sc, sistema);
+                case 2 -> registrarProfesor(sc, sistema);
+                case 3 -> registrarCurso(sc, sistema);
+                case 4 -> matricularEstudiante(sc, sistema);
+                case 5 -> sistema.mostrarCursos();
+                case 6 -> {
+                    System.out.print("Codigo del curso: ");
+                    String codCurso = sc.nextLine();
+                    sistema.mostrarEstudiantesPorCurso(codCurso);
+                }
+                case 7 -> {
+                    System.out.print("Carnet del estudiante: ");
+                    String carnet = sc.nextLine();
+                    sistema.mostrarCursosPorEstudiante(carnet);
+                }
+                case 0 -> System.out.println("Saliendo del sistema...");
+                default -> System.out.println("Opción inválida");
+            }
+
+        } while (opcion != 0);
+    }
+
+    private static void registrarEstudiante(Scanner sc, FuncionesDelSistema sistema) {
+        System.out.print("Carnet: ");
+        String carnet = sc.nextLine();
+        System.out.print("Carrera: ");
+        String carrera = sc.nextLine();
+        System.out.print("Nivel: ");
+        int nivel = Integer.parseInt(sc.nextLine());
+        System.out.print("Nombre: ");
+        String nombres = sc.nextLine();
+        System.out.print("Apellidos: ");
+        String apellidos = sc.nextLine();
+        System.out.print("Email: ");
+        String email = sc.nextLine();
+        System.out.print("Telefono: ");
+        String telefono = sc.nextLine();
+
+        Estudiante est = new Estudiante(nombres, apellidos, email, telefono, carnet, carrera, nivel);
+        if (sistema.registrarEstudiante(est)) {
+            System.out.println("Estudiante registrado correctamente.");
+        } else {
+            System.out.println("Error: el estudiante ya existe.");
+        }
+    }
+
+    private static void registrarProfesor(Scanner sc, FuncionesDelSistema sistema) {
+        System.out.print("ID Profesor: ");
+        String idProfesor = sc.nextLine();
+        System.out.print("Especialidad: ");
+        String especialidad = sc.nextLine();
+        System.out.print("Tipo de contrato: ");
+        String tipoContrato = sc.nextLine();
+        System.out.print("Nombre: ");
+        String nombres = sc.nextLine();
+        System.out.print("Apellidos: ");
+        String apellidos = sc.nextLine();
+        System.out.print("Email: ");
+        String email = sc.nextLine();
+        System.out.print("Telefono: ");
+        String telefono = sc.nextLine();
+
+        Profesor prof = new Profesor(idProfesor, especialidad, tipoContrato, nombres, apellidos, email, telefono);
+        if (sistema.registrarProfesor(prof)) {
+            System.out.println("Profesor registrado correctamente.");
+        } else {
+            System.out.println("Error: el profesor ya existe.");
+        }
+    }
+
+    private static void registrarCurso(Scanner sc, FuncionesDelSistema sistema) {
+        System.out.print("Codigo del curso: ");
+        String codigo = sc.nextLine();
+        System.out.print("Nombre del curso: ");
+        String nombre = sc.nextLine();
+        System.out.print("Descripcion: ");
+        String descripcion = sc.nextLine();
+        System.out.print("ID del profesor encargado: ");
+        String idProfesor = sc.nextLine();
+        System.out.print("Capacidad maxima: ");
+        int capacidad = Integer.parseInt(sc.nextLine());
+
+        if (sistema.registrarCurso(codigo, nombre, descripcion, idProfesor, capacidad)) {
+            System.out.println("Curso registrado correctamente.");
+        } else {
+            System.out.println("Error al registrar el curso. Verifique que el codigo no exista y que el profesor esté registrado.");
+        }
+    }
+
+    private static void matricularEstudiante(Scanner sc, FuncionesDelSistema sistema) {
+        System.out.print("Carnet del estudiante: ");
+        String carnet = sc.nextLine();
+        System.out.print("Codigo del curso: ");
+        String codigoCurso = sc.nextLine();
+
+        if (sistema.matricularEstudiante(carnet, codigoCurso)) {
+            System.out.println("Estudiante matriculado correctamente.");
+        } else {
+            System.out.println("Error: no se pudo matricular. Verifique los datos o la capacidad del curso.");
+        }
+    }
+}

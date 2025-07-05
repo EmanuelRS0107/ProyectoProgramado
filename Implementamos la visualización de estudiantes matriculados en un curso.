@@ -1,0 +1,18 @@
+ public void mostrarEstudiantesPorCurso(String codigo) {
+    for (Curso curso : cursos) {
+        if (curso.getCodigo().equalsIgnoreCase(codigo.trim())) {
+            System.out.println("\nEstudiantes en el curso: " + curso.getNombre());
+            if (curso.getListaEstudiantes().isEmpty()) {
+                System.out.println("No hay estudiantes matriculados en este curso.");
+            } else {
+                for (Estudiante est : curso.getListaEstudiantes()) {
+                    System.out.println("Carnet: " + est.getCarnet());
+                    System.out.println("Nombre: " + est.getNombres() + " " + est.getApellidos());
+                    System.out.println("Email: " + est.getEmail());
+                    System.out.println("Telefono: " + est.getTelefono());
+                    System.out.println("---");
+                }
+            }
+            return;
+        }
+    }
